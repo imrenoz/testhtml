@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIA ARCHITECTS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            background-color: rgba(245, 245, 245, 0.9);
+            backdrop-filter: blur(5px);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #333;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        /* Hero section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            margin-left: 10%;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 64px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            font-weight: 300;
+            max-width: 450px;
+        }
+        
+        .hero-image {
+            position: absolute;
+            right: 0;
+            width: 60%;
+            height: 80%;
+            background-image: url('/api/placeholder/800/600');
+            background-size: cover;
+            z-index: 1;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #555;
+        }
+        
+        /* Projects */
+        .projects {
+            padding: 100px 0;
+        }
+        
+        .section-header {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        
+        .section-header h2 {
+            font-size: 36px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .section-header h2:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 2px;
+            bottom: 0;
+            left: 20%;
+            background-color: #333;
+        }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .project-card {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .project-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .project-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .project-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .project-card:hover .project-info {
+            transform: translateY(0);
+        }
+        
+        .project-info h3 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        
+        .project-info p {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        /* About */
+        .about {
+            padding: 100px 0;
+            background-color: #fff;
+        }
+        
+        .about-content {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .about-image {
+            flex: 1;
+            height: 500px;
+            background-image: url('/api/placeholder/600/500');
+            background-size: cover;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        
+        /* Services */
+        .services {
+            padding: 100px 0;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .service-card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .service-card h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #333;
+        }
+        
+        .service-card p {
+            color: #666;
+        }
+        
+        /* Contact */
+        .contact {
+            padding: 100px 0;
+            background-color: #fff;
+        }
+        
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+        }
+        
+        .contact-form {
+            background-color: #f5f5f5;
+            padding: 40px;
+            border-radius: 5px;
+        }
+        
+        .contact-form h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .contact-info {
+            padding: 40px;
+        }
+        
+        .contact-info h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info p {
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+        
+        .contact-details {
+            margin-top: 30px;
+        }
+        
+        .contact-details div {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4:after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #fff;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #fff;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 48px;
+            }
+            
+            .hero-image {
+                width: 50%;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                width: 100%;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero-content {
+                margin: 0 auto;
+                text-align: center;
+                padding: 0 20px;
+            }
+            
+            .hero-image {
+                display: none;
+            }
+            
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">AIA ARCHITECTS</div>
+                <div class="nav-links">
+                    <a href="#projects">Projects</a>
+                    <a href="#about">About</a>
+                    <a href="#services">Services</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Innovative Architecture for Modern Living</h1>
+            <p>We create spaces that inspire, function perfectly, and stand the test of time. Our award-winning designs transform visions into reality.</p>
+            <a href="#projects" class="btn">Explore Our Work</a>
+        </div>
+        <div class="hero-image"></div>
+    </section>
+
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Projects</h2>
+            </div>
+            <div class="project-grid">
+                <div class="project-card">
+                    <img src="/api/placeholder/600/700" alt="Urban Loft">
+                    <div class="project-info">
+                        <h3>Urban Loft</h3>
+                        <p>Residential | New York, 2024</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="/api/placeholder/600/700" alt="Glass Pavilion">
+                    <div class="project-info">
+                        <h3>Glass Pavilion</h3>
+                        <p>Commercial | Paris, 2023</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="/api/placeholder/600/700" alt="Seaside Villa">
+                    <div class="project-info">
+                        <h3>Seaside Villa</h3>
+                        <p>Residential | Malibu, 2023</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="/api/placeholder/600/700" alt="Cultural Center">
+                    <div class="project-info">
+                        <h3>Cultural Center</h3>
+                        <p>Public | Tokyo, 2022</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="/api/placeholder/600/700" alt="Mountain Retreat">
+                    <div class="project-info">
+                        <h3>Mountain Retreat</h3>
+                        <p>Residential | Swiss Alps, 2022</p>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="/api/placeholder/600/700" alt="Urban Office">
+                    <div class="project-info">
+                        <h3>Urban Office</h3>
+                        <p>Commercial | Berlin, 2021</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image"></div>
+                <div class="about-text">
+                    <h2>About AIA Architects</h2>
+                    <p>Founded in 2010, AIA Architects has established itself as a leading architectural practice dedicated to creating exceptional spaces that enrich the lives of their occupants and contribute positively to their surroundings.</p>
+                    <p>Our team of talented architects and designers brings together diverse expertise and perspectives, united by a shared commitment to design excellence, innovation, and sustainability.</p>
+                    <p>We believe that great architecture is born from a deep understanding of our clients' needs and aspirations, the unique characteristics of each site, and the cultural and environmental context. This holistic approach enables us to create buildings and spaces that are not only beautiful but also functional, responsible, and meaningful.</p>
+                    <a href="#contact" class="btn">Work With Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Services</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Architectural Design</h3>
+                    <p>From concept to completion, we provide comprehensive architectural design services for projects of all scales and typologies, including residential, commercial, cultural, and mixed-use developments.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Interior Design</h3>
+                    <p>Our interior design services focus on creating cohesive, functional, and aesthetically pleasing interior spaces that reflect our clients' identities and enhance the overall architectural concept.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Urban Planning</h3>
+                    <p>We develop thoughtful urban planning strategies that address complex social, economic, and environmental challenges while creating vibrant, sustainable, and inclusive communities.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Sustainable Design</h3>
+                    <p>Environmental responsibility is at the core of our practice. We integrate innovative sustainable design strategies to minimize environmental impact and maximize energy efficiency.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Renovation & Adaptive Reuse</h3>
+                    <p>We breathe new life into existing buildings through sensitive renovations and adaptive reuse projects that honor the past while meeting contemporary needs and standards.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Project Management</h3>
+                    <p>Our project management services ensure that your project is delivered on time, within budget, and to the highest quality standards through careful planning, coordination, and execution.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get In Touch</h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h3>Send Us a Message</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <p>We'd love to hear about your project. Contact us to schedule a consultation, or visit our studio to discuss your architectural needs in person.</p>
+                    <div class="contact-details">
+                        <div>
+                            <strong>Address:</strong> 123 Design Avenue, New York, NY 10001
+                        </div>
+                        <div>
+                            <strong>Phone:</strong> +1 (212) 555-7890
+                        </div>
+                        <div>
+                            <strong>Email:</strong> info@aiaarchitects.com
+                        </div>
+                        <div>
+                            <strong>Working Hours:</strong> Monday - Friday: 9am - 6pm
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>AIA ARCHITECTS</h4>
+                    <p>Creating exceptional architectural experiences through innovative design, technical expertise, and collaborative relationships.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Architectural Design</a></li>
+                        <li><a href="#">Interior Design</a></li>
+                        <li><a href="#">Urban Planning</a></li>
+                        <li><a href="#">Sustainable Design</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Pinterest</a></li>
+                        <li><a href="#">Facebook</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AIA ARCHITECTS. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
